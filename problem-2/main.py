@@ -8,27 +8,26 @@ class Node:
       self.right = right
 
 
-def deserialize(node):
+def deserialize(str):
   print "deserialize"
+  print arr
 
 def serialize(node):
-  print "serialize"
+  return traverse(node, "")
 
-def append(serialized, val):
-  serialized = serialized + str(val)
 
-serialized = ""
-def traverse(node, string):
+def traverse(node, serialized_str):
   if node:
-    string += str(node.val)
-    print string
-    traverse(node.left, string)
-    traverse(node.right, string)
-  # return string
+    left = traverse(node.left, serialized_str)
+    right = traverse(node.right, serialized_str)
+    serialized_str = serialized_str + str(node.val) + '-' + left + right + "/"
+  return serialized_str
+    
+
 
 node = Node(1, Node(2, Node(4), Node(5)), Node(3, right=Node(6), left=Node(7)))
-traverse(node, "")
-print serialized
+print  serialize(node)
+# print serialized
   
 
 
@@ -36,13 +35,18 @@ print serialized
  
 
 
-# node = Node('root', Node('left', Node('left.left')), Node('right'))
-# serialize(node)
+node = Node('root', Node('left', Node('left.left')), Node('right'))
+# traverse_str("1-2-4-/5-//3-7-/6-///")
+# print serialize(node)
+#      1
+#   2     3
+# 4  5   7  6      1 2 4 5 3 7 6 
+
 
 # # preorder
 #       1
 #     2   5
 #    3 4   6
 
-#    preorder: 1 2 3 4 5 6
+#    preorder: 1 2 3, 4, 5 6,
 # assert deserialize(serialize(node)).left.left.val == 'left.left'
